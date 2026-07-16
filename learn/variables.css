@@ -1,0 +1,338 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f6f6f6;
+  color: #222;
+}
+
+header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.back-link {
+  color: #555;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  color: #222;
+}
+
+main {
+  max-width: 40rem;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+}
+
+#stage {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+#canvas {
+  position: relative;
+  width: 34rem;
+  height: 20rem;
+  margin: 0 auto;
+}
+
+#canvas > * {
+  transition: opacity 0.6s ease, transform 0.6s ease, top 0.6s ease, left 0.6s ease, width 0.6s ease;
+}
+
+/* --- Code lines: pinned top, one visible per movement --- */
+.code {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.4rem 1rem;
+  background: #2d2d2d;
+  color: #f6f6f6;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  opacity: 0;
+}
+
+#stage[data-beat="0"] .code-a,
+#stage[data-beat="1"] .code-a,
+#stage[data-beat="2"] .code-a {
+  opacity: 1;
+}
+
+#stage[data-beat="3"] .code-b,
+#stage[data-beat="4"] .code-b,
+#stage[data-beat="5"] .code-b {
+  opacity: 1;
+}
+
+#stage[data-beat="7"] .code-c,
+#stage[data-beat="8"] .code-c,
+#stage[data-beat="9"] .code-c,
+#stage[data-beat="10"] .code-c {
+  opacity: 1;
+}
+
+/* RHS hp token becomes an empty slot when evaluation begins */
+.tok-rhs {
+  display: inline-block;
+  min-width: 2ch;
+  border-radius: 4px;
+  transition: color 0.6s ease, background 0.6s ease, box-shadow 0.6s ease;
+}
+
+#stage[data-beat="8"] .tok-rhs,
+#stage[data-beat="9"] .tok-rhs,
+#stage[data-beat="10"] .tok-rhs {
+  color: transparent;
+  box-shadow: inset 0 0 0 2px #9db6d8;
+  background: #3a4450;
+}
+
+/* The " - 3" fades once the computation has produced 4 */
+.tok-op {
+  transition: opacity 0.6s ease;
+}
+
+#stage[data-beat="9"] .tok-op,
+#stage[data-beat="10"] .tok-op {
+  opacity: 0.35;
+}
+
+/* LHS hp highlighted at the final binding */
+.tok-lhs {
+  border-radius: 4px;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+#stage[data-beat="10"] .tok-lhs {
+  background: #ffd97a;
+  color: #2d2d2d;
+}
+
+/* --- The name --- */
+.name {
+  position: absolute;
+  left: 3rem;
+  top: 9.4rem;
+  padding: 0.35rem 0.9rem;
+  font-family: ui-monospace, monospace;
+  font-size: 1.15rem;
+  color: #1a5fb4;
+  border: 2px solid #9db6d8;
+  border-radius: 6px;
+  background: #f3f7fc;
+  opacity: 0;
+}
+
+#stage[data-beat="2"] .name,
+#stage[data-beat="3"] .name,
+#stage[data-beat="4"] .name,
+#stage[data-beat="5"] .name,
+#stage[data-beat="6"] .name,
+#stage[data-beat="7"] .name,
+#stage[data-beat="8"] .name,
+#stage[data-beat="9"] .name,
+#stage[data-beat="10"] .name {
+  opacity: 1;
+}
+
+/* --- The arrow: origin fixed at the name's right edge, swings between objects --- */
+.arrow {
+  position: absolute;
+  left: 6.8rem;
+  top: 10.4rem;
+  height: 2px;
+  background: #555;
+  transform-origin: left center;
+  opacity: 0;
+}
+
+.arrow::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: -4px;
+  border-left: 9px solid #555;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+/* beat 2–4: points at 10 */
+#stage[data-beat="2"] .arrow,
+#stage[data-beat="3"] .arrow,
+#stage[data-beat="4"] .arrow {
+  opacity: 1;
+  width: 15.3rem;
+  transform: rotate(-21deg);
+}
+
+/* beat 5–9: points at 7 */
+#stage[data-beat="5"] .arrow,
+#stage[data-beat="6"] .arrow,
+#stage[data-beat="7"] .arrow,
+#stage[data-beat="8"] .arrow,
+#stage[data-beat="9"] .arrow {
+  opacity: 1;
+  width: 14.2rem;
+  transform: rotate(0deg);
+}
+
+/* beat 10: points at 4 */
+#stage[data-beat="10"] .arrow {
+  opacity: 1;
+  width: 15.4rem;
+  transform: rotate(22deg);
+}
+
+/* --- Objects --- */
+.chip {
+  position: absolute;
+  z-index: 1;
+  padding: 0.4rem 0.9rem;
+  background: #fff3c4;
+  border: 1px solid #e0c96a;
+  border-radius: 999px;
+  font-family: ui-monospace, monospace;
+  font-size: 1.3rem;
+  opacity: 0;
+}
+
+.obj-10 {
+  left: 21rem;
+  top: 3.6rem;
+}
+
+#stage[data-beat="1"] .obj-10,
+#stage[data-beat="2"] .obj-10,
+#stage[data-beat="3"] .obj-10,
+#stage[data-beat="4"] .obj-10 {
+  opacity: 1;
+}
+
+.obj-7 {
+  left: 21rem;
+  top: 9.3rem;
+}
+
+#stage[data-beat="4"] .obj-7,
+#stage[data-beat="5"] .obj-7,
+#stage[data-beat="6"] .obj-7,
+#stage[data-beat="7"] .obj-7,
+#stage[data-beat="8"] .obj-7,
+#stage[data-beat="9"] .obj-7 {
+  opacity: 1;
+}
+
+/* --- The evaluation copy of 7: travels from the object into the code slot --- */
+.eval-7 {
+  left: 21rem;
+  top: 9.3rem;
+  font-size: 1.05rem;
+  padding: 0.15rem 0.55rem;
+}
+
+#stage[data-beat="8"] .eval-7 {
+  opacity: 1;
+  left: 16.35rem;
+  top: 1.35rem;
+}
+
+/* --- The result object 4: born beside the code, then settles below --- */
+.obj-4 {
+  left: 15.7rem;
+  top: 4.6rem;
+}
+
+#stage[data-beat="9"] .obj-4 {
+  opacity: 1;
+}
+
+#stage[data-beat="10"] .obj-4 {
+  opacity: 1;
+  left: 21rem;
+  top: 15rem;
+}
+
+/* --- Hit button --- */
+#hit {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 1rem;
+  transform: translateX(-50%);
+  padding: 0.5rem 1.3rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  background: #c0392b;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#hit:hover {
+  background: #a93226;
+}
+
+#stage[data-beat="6"] #hit {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#caption {
+  min-height: 1.5rem;
+  margin: 1rem 0;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.controls button {
+  padding: 0.45rem 1.1rem;
+  font-size: 0.95rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controls button:hover:enabled {
+  border-color: #888;
+}
+
+.controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #canvas > * {
+    transition: none;
+  }
+}

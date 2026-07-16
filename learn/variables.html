@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Variables — Scaffold</title>
+  <link rel="stylesheet" href="variables.css">
+</head>
+<body>
+  <header>
+    <a class="back-link" href="../index.html">&larr; Editor</a>
+    <h1>Variables</h1>
+  </header>
+  <main>
+    <div id="stage" data-beat="0" aria-live="polite">
+      <div id="canvas">
+        <pre class="code code-a"><code>hp = 10</code></pre>
+        <pre class="code code-b"><code>hp = 7</code></pre>
+        <pre class="code code-c"><code><span class="tok-lhs">hp</span> = <span class="tok-rhs">hp</span><span class="tok-op"> - 3</span></code></pre>
+        <div class="name">hp</div>
+        <div class="arrow"></div>
+        <div class="chip obj-10">10</div>
+        <div class="chip obj-7">7</div>
+        <div class="chip obj-4">4</div>
+        <div class="chip eval-7">7</div>
+        <button id="hit" type="button">Hit!</button>
+      </div>
+    </div>
+    <p id="caption"></p>
+    <div class="controls">
+      <button id="back" type="button">&larr; Back</button>
+      <button id="next" type="button">Next &rarr;</button>
+      <button id="restart" type="button">Restart</button>
+    </div>
+  </main>
+  <script src="variables.js"></script>
+</body>
+</html>
