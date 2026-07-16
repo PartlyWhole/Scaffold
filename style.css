@@ -20,6 +20,22 @@ header h1 {
   font-size: 1.1rem;
 }
 
+header nav a {
+  font-size: 0.9rem;
+  color: #1a5fb4;
+  text-decoration: none;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
 main {
   max-width: 56rem;
   margin: 1.5rem auto;
