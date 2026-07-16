@@ -3,31 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Storing a value — Scaffold</title>
-  <link rel="stylesheet" href="storing-a-value.css">
+  <title>Changing a value — Scaffold</title>
+  <link rel="stylesheet" href="changing-a-value.css">
 </head>
 <body>
   <header>
     <a class="back-link" href="../index.html">&larr; Editor</a>
-    <h1>Storing a value</h1>
+    <h1>Changing a value</h1>
   </header>
   <main>
     <div id="stage" data-beat="0" aria-live="polite">
-      <div class="value">10</div>
+      <div class="chip chip-old">10</div>
+      <div class="chip chip-new">7</div>
+      <div class="chip chip-copy">7</div>
+      <div class="op">&minus; 3</div>
+      <div class="chip chip-result">4</div>
       <div class="container">
         <div class="label">health</div>
         <div class="box"></div>
       </div>
-      <pre class="code"><code>health = 10</code></pre>
+      <pre class="code code-1"><code>health = 7</code></pre>
+      <pre class="code code-2"><code>health = <em>health - 3</em></code></pre>
     </div>
     <p id="caption"></p>
-    <a class="next-lesson" href="changing-a-value.html">Next: changing a value &rarr;</a>
     <div class="controls">
       <button id="back" type="button">&larr; Back</button>
       <button id="next" type="button">Next &rarr;</button>
       <button id="restart" type="button">Restart</button>
     </div>
   </main>
-  <script src="storing-a-value.js"></script>
+  <script src="changing-a-value.js"></script>
 </body>
 </html>

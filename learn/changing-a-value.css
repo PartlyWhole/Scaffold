@@ -49,13 +49,13 @@ main {
 }
 
 #stage > * {
-  transition: opacity 0.6s ease, transform 0.6s ease, top 0.6s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease, top 0.6s ease, left 0.6s ease;
 }
 
-.value {
+.chip {
   position: absolute;
   z-index: 1;
-  top: 42%;
+  top: 22%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 0.4rem 0.9rem;
@@ -66,13 +66,24 @@ main {
   font-size: 1.4rem;
 }
 
+.op {
+  position: absolute;
+  z-index: 1;
+  top: 22%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: ui-monospace, monospace;
+  font-size: 1.3rem;
+  color: #666;
+  opacity: 0;
+}
+
 .container {
   position: absolute;
   top: 52%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  opacity: 0;
 }
 
 .container .label {
@@ -85,7 +96,7 @@ main {
 .container .box {
   width: 7rem;
   height: 4.2rem;
-  border: 2px dashed #9db6d8;
+  border: 2px solid #9db6d8;
   border-radius: 8px;
   background: #f3f7fc;
 }
@@ -104,52 +115,95 @@ main {
   opacity: 0;
 }
 
-/* Beat 2+: the named container appears; the value drifts up to make room */
-#stage[data-beat="1"] .container,
-#stage[data-beat="2"] .container,
-#stage[data-beat="3"] .container {
-  opacity: 1;
+.code em {
+  font-style: normal;
+  color: #ffd97a;
 }
 
-#stage[data-beat="1"] .value {
-  top: 22%;
-}
-
-/* Beat 3+: the value settles inside the box */
-#stage[data-beat="2"] .value,
-#stage[data-beat="3"] .value {
+/* --- The old value 10: starts in the box, discarded from beat 2 on --- */
+.chip-old {
   top: 52%;
   transform: translate(-50%, 2.1rem);
 }
 
-#stage[data-beat="2"] .container .box,
-#stage[data-beat="3"] .container .box {
-  border-style: solid;
-}
-
-/* Beat 4: the syntax reveal */
-#stage[data-beat="3"] .code {
-  opacity: 1;
-}
-
-.next-lesson {
-  display: block;
-  text-align: center;
-  margin-bottom: 0.75rem;
-  color: #1a5fb4;
-  text-decoration: none;
+#stage[data-beat="2"] .chip-old,
+#stage[data-beat="3"] .chip-old,
+#stage[data-beat="4"] .chip-old,
+#stage[data-beat="5"] .chip-old,
+#stage[data-beat="6"] .chip-old,
+#stage[data-beat="7"] .chip-old {
+  transform: translate(3.5rem, 2.1rem);
   opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.6s ease;
 }
 
-.next-lesson:hover {
-  text-decoration: underline;
+/* --- The new value 7: appears beat 1, stored beats 2–5, discarded 6+ --- */
+.chip-new {
+  opacity: 0;
 }
 
-.next-lesson.visible {
+#stage[data-beat="1"] .chip-new {
   opacity: 1;
-  pointer-events: auto;
+}
+
+#stage[data-beat="2"] .chip-new,
+#stage[data-beat="3"] .chip-new,
+#stage[data-beat="4"] .chip-new,
+#stage[data-beat="5"] .chip-new {
+  opacity: 1;
+  top: 52%;
+  transform: translate(-50%, 2.1rem);
+}
+
+#stage[data-beat="6"] .chip-new,
+#stage[data-beat="7"] .chip-new {
+  top: 52%;
+  transform: translate(3.5rem, 2.1rem);
+  opacity: 0;
+}
+
+/* --- First syntax reveal: beat 3 only --- */
+#stage[data-beat="3"] .code-1 {
+  opacity: 1;
+}
+
+/* --- The read copy and computation: beats 4–5, fade at 6 --- */
+.chip-copy {
+  left: 30%;
+  opacity: 0;
+}
+
+.op {
+  left: 47%;
+}
+
+#stage[data-beat="4"] .chip-copy,
+#stage[data-beat="5"] .chip-copy,
+#stage[data-beat="4"] .op,
+#stage[data-beat="5"] .op {
+  opacity: 1;
+}
+
+/* --- The result 4: appears beat 5, stored beats 6+ --- */
+.chip-result {
+  left: 64%;
+  opacity: 0;
+}
+
+#stage[data-beat="5"] .chip-result {
+  opacity: 1;
+}
+
+#stage[data-beat="6"] .chip-result,
+#stage[data-beat="7"] .chip-result {
+  opacity: 1;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, 2.1rem);
+}
+
+/* --- Second syntax reveal: beat 7 --- */
+#stage[data-beat="7"] .code-2 {
+  opacity: 1;
 }
 
 #caption {
