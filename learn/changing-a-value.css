@@ -78,6 +78,33 @@ main {
   opacity: 0;
 }
 
+#hit {
+  position: absolute;
+  z-index: 2;
+  top: 22%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.5rem 1.3rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  background: #c0392b;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#hit:hover {
+  background: #a93226;
+}
+
+#stage[data-beat="4"] #hit {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .container {
   position: absolute;
   top: 52%;
@@ -131,12 +158,14 @@ main {
 #stage[data-beat="4"] .chip-old,
 #stage[data-beat="5"] .chip-old,
 #stage[data-beat="6"] .chip-old,
-#stage[data-beat="7"] .chip-old {
+#stage[data-beat="7"] .chip-old,
+#stage[data-beat="8"] .chip-old,
+#stage[data-beat="9"] .chip-old {
   transform: translate(3.5rem, 2.1rem);
   opacity: 0;
 }
 
-/* --- The new value 7: appears beat 1, stored beats 2–5, discarded 6+ --- */
+/* --- The new value 7: appears beat 1, stored beats 2–7, discarded 8+ --- */
 .chip-new {
   opacity: 0;
 }
@@ -148,14 +177,16 @@ main {
 #stage[data-beat="2"] .chip-new,
 #stage[data-beat="3"] .chip-new,
 #stage[data-beat="4"] .chip-new,
-#stage[data-beat="5"] .chip-new {
+#stage[data-beat="5"] .chip-new,
+#stage[data-beat="6"] .chip-new,
+#stage[data-beat="7"] .chip-new {
   opacity: 1;
   top: 52%;
   transform: translate(-50%, 2.1rem);
 }
 
-#stage[data-beat="6"] .chip-new,
-#stage[data-beat="7"] .chip-new {
+#stage[data-beat="8"] .chip-new,
+#stage[data-beat="9"] .chip-new {
   top: 52%;
   transform: translate(3.5rem, 2.1rem);
   opacity: 0;
@@ -166,43 +197,68 @@ main {
   opacity: 1;
 }
 
-/* --- The read copy and computation: beats 4–5, fade at 6 --- */
+/* --- The read copy: emerges from the box at beat 5, travels up --- */
 .chip-copy {
-  left: 30%;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, 2.1rem);
+  opacity: 0;
+}
+
+#stage[data-beat="5"] .chip-copy,
+#stage[data-beat="6"] .chip-copy {
+  opacity: 1;
+  top: 22%;
+  left: 34%;
+  transform: translate(-50%, -50%);
+}
+
+/* --- The literal 3 and the minus sign: beat 6 --- */
+.chip-three {
+  left: 66%;
   opacity: 0;
 }
 
 .op {
-  left: 47%;
+  left: 50%;
 }
 
-#stage[data-beat="4"] .chip-copy,
-#stage[data-beat="5"] .chip-copy,
-#stage[data-beat="4"] .op,
-#stage[data-beat="5"] .op {
+#stage[data-beat="6"] .chip-three,
+#stage[data-beat="6"] .op {
   opacity: 1;
 }
 
-/* --- The result 4: appears beat 5, stored beats 6+ --- */
-.chip-result {
-  left: 64%;
+/* --- Beat 7: the expression merges into the new value 4 --- */
+#stage[data-beat="7"] .chip-copy,
+#stage[data-beat="7"] .chip-three {
+  opacity: 0;
+  top: 22%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#stage[data-beat="7"] .op {
   opacity: 0;
 }
 
-#stage[data-beat="5"] .chip-result {
+.chip-result {
+  opacity: 0;
+}
+
+#stage[data-beat="7"] .chip-result {
   opacity: 1;
 }
 
-#stage[data-beat="6"] .chip-result,
-#stage[data-beat="7"] .chip-result {
+/* --- Beat 8: the result is stored --- */
+#stage[data-beat="8"] .chip-result,
+#stage[data-beat="9"] .chip-result {
   opacity: 1;
-  left: 50%;
   top: 52%;
   transform: translate(-50%, 2.1rem);
 }
 
-/* --- Second syntax reveal: beat 7 --- */
-#stage[data-beat="7"] .code-2 {
+/* --- Second syntax reveal: beat 9 --- */
+#stage[data-beat="9"] .code-2 {
   opacity: 1;
 }
 
